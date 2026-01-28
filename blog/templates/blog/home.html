@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'blog/css/main.css' %} ">
+{% endblock extra_css %}  
+
+{% block content %}
+
+<div class="container my-5">
+
+  {% for post in posts %}
+  <article class="card shadow-sm mb-4 border-0 rounded-3 hover-lift bg-white">
+    <div class="card-body">
+      <!-- Author section -->
+      <div class="d-flex align-items-center mb-3">
+        <a href="{{ post.author.profile.image.url }}" target="_blank">
+          <img src="{{ post.author.profile.image.url }}"
+               alt="{{ post.author.username }}"
+               class="rounded-circle me-3 border"
+               style="width: 60px; height: 60px; object-fit: cover;">
+        </a>
+        <div class="flex-grow-1">
+          <a href="{% url 'user-posts' post.author.username %}" class="text-decoration-none text-dark fw-semibold">
+            {{ post.author }}
+          </a>
+          <div class="text-muted small">{{ post.date_posted|date:"F d, Y" }}</div>
+        </div>
+      </div>
+
+      <!-- Tags -->
+      <div class="mb-3">
+        <span class="badge bg-body-secondary text-dark">{{ post.course }}</span>
+        <span class="badge bg-body-secondary text-dark">{{ post.semester }}</span>
+        <span class="badge bg-body-secondary text-dark">{{ post.subject }}</span>
+      </div>
+
+      <!-- Title -->
+      <h5 class="fw-semibold mb-2">
+        <a href="{% url 'post-detail' post.id %}" class="text-decoration-none text-dark">
+          {{ post.title }}
+        </a>
+      </h5>
+
+      <!-- Content preview -->
+      <p class="text-muted small mb-4" style="max-height: 70px; overflow: hidden;">
+        {{ post.content }}
+      </p>
+
+      <!-- Actions -->
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          {% if post.file %}
+            <a href="{{ post.file.url }}" target="_blank" class="btn btn-sm btn-outline-secondary me-2">
+              <i class="fas fa-eye me-1"></i> View
+            </a>
+            <a href="{{ post.file.url }}" download class="btn btn-sm btn-outline-primary">
+              <i class="fas fa-download me-1"></i> File
+            </a>
+          {% else %}
+            <span class="text-muted small">No file attached</span>
+          {% endif %}
+        </div>
+        {% if post.file %}
+          <small class="text-muted">{{ post.extension }}</small>
+        {% endif %}
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+
+  <!-- Pagination -->
+  {% if is_paginated %}
+  <div class="d-flex justify-content-center mt-4 flex-wrap gap-2">
+    {% if page_obj.has_previous %}
+      <a class="btn btn-outline-dark btn-sm" href="?page=1">First</a>
+      <a class="btn btn-outline-dark btn-sm" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <a class="btn btn-dark btn-sm" href="?page={{ num }}">{{ num }}</a>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a class="btn btn-outline-dark btn-sm" href="?page={{ num }}">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <a class="btn btn-outline-dark btn-sm" href="?page={{ page_obj.next_page_number }}">Next</a>
+      <a class="btn btn-outline-dark btn-sm" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+
+
+
+{% endblock content %}
+
+

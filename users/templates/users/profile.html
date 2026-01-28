@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-start min-vh-100 bg-body-tertiary py-5">
+  <div class="card border-0 shadow-sm p-5 rounded-4" style="max-width: 580px; width: 100%;">
+    <div class="text-center mb-4">
+      <div class="position-relative d-inline-block">
+        <img 
+          src="{{ user.profile.image.url }}" 
+          alt="{{ user.username }}" 
+          class="rounded-circle shadow-sm" 
+          style="width:120px; height:120px; object-fit:cover; border:4px solid var(--bs-primary);"
+        >
+        <span 
+          class="position-absolute bottom-0 end-0 translate-middle p-1 bg-primary rounded-circle"
+          title="Profile Picture"
+        >
+          <i class="bi bi-camera-fill text-white" style="font-size: 0.9rem;"></i>
+        </span>
+      </div>
+      <h3 class="fw-semibold mt-3 mb-1">{{ user.username }}</h3>
+      <p class="text-secondary small mb-0">{{ user.email }}</p>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+      {% csrf_token %}
+      <fieldset class="form-group mb-3">
+        <legend class="border-bottom pb-2 mb-3 fw-semibold text-secondary">Profile Info</legend>
+        {{ u_form|crispy }}
+        {{ p_form|crispy }}
+      </fieldset>
+      <div class="d-grid mt-4">
+        <button class="btn btn-primary btn-lg fw-semibold shadow-sm" type="submit">
+          <i class="bi bi-save2 me-1"></i> Update Profile
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Subtle interactivity and visual enhancements -->
+<style>
+  body {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  }
+  .card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.08);
+  }
+  .btn-primary {
+    background-color: #0d6efd;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+  }
+  .btn-primary:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-1px);
+  }
+  legend {
+    font-size: 1.05rem;
+  }
+</style>
+{% endblock content %}

@@ -1,0 +1,58 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>StudyHub</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link 
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+      rel="stylesheet" 
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+      crossorigin="anonymous">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-3hQzC+6vN9pFzK+S2sJj7j5x8UakC4xJmDgW1T9H9Pq6T4h5vX1LzoykU1V3zMoM3XkCwQZzzlJm9mjl+Q+Kug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    {% block extra_css %}{% endblock %}
+  </head>
+
+  <body class="bg-light">
+    {% include 'navbar.html' %}
+
+    <div class="container py-4">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      {% block content %}
+      {% endblock %}
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Pass user info to JS -->
+    <script>
+      window.userIdentifier = "{% if user.is_authenticated %}{{ user.username }}{% else %}Guest{% endif %}";
+    </script>
+
+    <!-- Screenshot deterrent script -->
+    <script src="{% static 'block_ss.js' %}"></script>
+
+    {% block extra_js %}
+    {% endblock %}
+  </body>
+</html>

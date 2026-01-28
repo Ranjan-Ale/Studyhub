@@ -1,0 +1,15 @@
+/* <!-- Subtle hover & smooth transition --> */
+
+.card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+button, a.btn {
+  transition: all 0.2s ease-in-out;
+}
+button:hover, a.btn:hover {
+  transform: translateY(-1px);
+}

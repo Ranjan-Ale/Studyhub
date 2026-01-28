@@ -1,0 +1,10 @@
+
+/* Subtle hover animation */
+.hover-lift {
+  transition: all 0.25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+}
+
